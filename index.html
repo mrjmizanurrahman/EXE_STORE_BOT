@@ -3,71 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EXE_SHOP — Telegram Shop</title>
+  <meta name="theme-color" content="#10131b" />
+  <title>EXE_SHOP — Digital essentials, made simple</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="telegram-app">
-    <aside class="sidebar">
-      <div class="side-top"><span class="menu-icon">☰</span><span class="search-icon">⌕</span></div>
-      <div class="nav-item active"><span>▣</span><small>All chats</small></div>
-      <div class="nav-item"><span>▣</span><small>Unread</small></div>
-      <div class="nav-item"><span>●</span><small>Personal</small></div>
-      <div class="nav-item"><span>▰</span><small>Groups</small></div>
-      <div class="nav-item"><span>▰</span><small>Channels</small></div>
-      <div class="nav-item"><span>▰</span><small>Bots</small></div>
-      <div class="nav-item"><span>⚙</span><small>Settings</small></div>
-    </aside>
+  <div class="announcement"><span class="status-dot"></span> Digital essentials, delivered with care <span class="announcement-note">· A thoughtful shopping experience</span></div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="EXE_SHOP home"><span class="brand-mark">E</span><span>EXE<span class="brand-accent">_SHOP</span><small>DIGITAL GOODS STORE</small></span></a>
+    <nav class="main-nav" aria-label="Main navigation"><a class="active" href="#shop">Shop</a><a href="#why-us">Why EXE</a><a href="#help">Help</a></nav>
+    <div class="header-actions"><button class="icon-button search-toggle" id="searchToggle" aria-label="Focus search">⌕</button><button class="cart-button" id="openCart"><span class="cart-icon">▱</span><span>Cart</span><span class="cart-count" id="cartCount">0</span></button></div>
+  </header>
 
-    <section class="chat-list" aria-label="Chat list">
-      <div class="list-search">⌕ <span>Search</span></div>
-      <div class="chat-preview selected"><div class="avatar bot-avatar">AP</div><div><strong>EXE_SHOP 🛍️</strong><p>bot</p></div><span class="badge">2</span></div>
-      <div class="chat-preview"><div class="avatar">👨🏻‍💻</div><div><strong>Support Team</strong><p>How can we help?</p></div></div>
-      <div class="chat-preview"><div class="avatar color-avatar">$</div><div><strong>Payment Updates</strong><p>New payment methods</p></div></div>
-      <div class="chat-preview"><div class="avatar">🌐</div><div><strong>Proxy Shop News</strong><p>Welcome to our store</p></div></div>
+  <main id="home">
+    <section class="hero wrap">
+      <div class="hero-copy"><div class="eyebrow"><span></span> YOUR DIGITAL TOOLKIT</div><h1>Good tools.<br /><em>Better online.</em></h1><p>Discover practical digital services for work, privacy and everyday life. Simple options, clear pricing, no fuss.</p><div class="hero-actions"><a class="primary-link" href="#shop">Explore the shop <span>↗</span></a><div class="delivery-note"><span>✦</span><span><b>Easy ordering</b><small>Support when you need it</small></span></div></div><div class="hero-stats"><div><b>Digital-first</b><span>Products & services</span></div><div><b>4 ways to pay</b><span>Choose at checkout</span></div><div><b>Here to help</b><span>Friendly support</span></div></div></div>
+      <div class="hero-art" aria-label="Abstract digital shopping illustration"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-card card-back"><span class="sparkle">✦</span><span class="card-lines"></span><span class="card-lines short"></span></div><div class="art-card card-front"><span class="mini-label">EXE / DIGITAL</span><span class="cube">✳</span><strong>Find your<br />next essential.</strong><span class="card-bottom">CURATED FOR YOU <span>↗</span></span></div><div class="art-float float-top">✦ <span>SMART PICKS</span></div><div class="art-float float-bottom"><span class="float-icon">✓</span><span>Simple & secure<br /><small>shopping experience</small></span></div><div class="art-glow"></div></div>
     </section>
 
-    <section class="conversation">
-      <header class="chat-header">
-        <div class="avatar bot-avatar">AP</div>
-        <div class="header-title"><strong>EXE_SHOP 🛍️</strong><span>bot</span></div>
-        <div class="header-tools"><span>⌕</span><span>▣</span><span>⋮</span></div>
-      </header>
-
-      <div class="messages" id="messages" aria-live="polite">
-        <div class="date-pill">Today</div>
-        <div class="message bot-message">
-          <div>👋 Welcome to <b>EXE_SHOP</b>!</div>
-          <div>Choose a product below to get started.</div>
-          <time>1:15 PM</time>
-        </div>
-        <div class="message user-message">Menu <time>1:16 PM ✓✓</time></div>
-        <div class="message bot-message">
-          <b>🛍️ Select a category</b><br />What would you like to buy today?
-          <time>1:16 PM</time>
-        </div>
-      </div>
-
-      <div class="composer">
-        <button class="menu-button" id="menuButton" type="button">Menu</button>
-        <span class="attachment">⌁</span>
-        <input id="messageInput" type="text" placeholder="Write a message..." aria-label="Write a message" />
-        <button class="send-button" id="sendButton" type="button" aria-label="Send message">➤</button>
-        <span class="mic">♩</span>
-      </div>
-
-      <div class="keyboard" aria-label="Shop menu">
-        <button class="key green" data-action="Buy Proxy">🖥️ Buy Proxy</button>
-        <button class="key green" data-action="Buy VPN">🛡️ Buy VPN</button>
-        <button class="key red" data-action="Buy Mails">📩 Buy Mails</button>
-        <button class="key red" data-action="META AI">📸 META AI</button>
-        <button class="key green" data-action="2FA KEY">🛡️ 2FA KEY</button>
-        <button class="key green" data-action="Mail OTP">💬 Mail OTP</button>
-        <button class="key blue" data-action="Add Money">💰 Add Money</button>
-        <button class="key blue" data-action="Profile">👤 Profile</button>
-      </div>
+    <section class="shop-section wrap" id="shop">
+      <div class="section-heading"><div><div class="eyebrow">THE EXE COLLECTION</div><h2>Shop digital essentials</h2><p>Useful services, selected to keep your digital life moving.</p></div><label class="search-box"><span>⌕</span><input id="productSearch" type="search" placeholder="Search products..." aria-label="Search products" /></label></div>
+      <div class="shop-toolbar"><div class="filters" id="filters" aria-label="Product categories"><button class="filter active" data-category="All">All products</button><button class="filter" data-category="Privacy">Privacy</button><button class="filter" data-category="Productivity">Productivity</button><button class="filter" data-category="Security">Security</button><button class="filter" data-category="Email">Email</button></div><span class="result-count" id="resultCount"></span></div>
+      <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      <div class="empty-state" id="emptyState" hidden><span>⌕</span><h3>No products found</h3><p>Try another search or category.</p></div>
     </section>
+
+    <section class="product-page wrap" id="productPage" hidden aria-live="polite"></section>
+
+    <section class="why-section" id="why-us"><div class="wrap why-inner"><div><div class="eyebrow">A LITTLE MORE EXE</div><h2>Shopping should feel<br />straightforward.</h2><p>Clear choices and helpful support, from browsing to your order request.</p></div><div class="benefit-grid"><article class="benefit"><span class="benefit-icon">◈</span><h3>Thoughtfully picked</h3><p>Useful digital products, organized so you can find what fits.</p></article><article class="benefit"><span class="benefit-icon">↗</span><h3>Clear pricing</h3><p>See the price before you add anything to your cart.</p></article><article class="benefit"><span class="benefit-icon">♡</span><h3>Human support</h3><p>Have a question? Our support team is ready to help.</p></article></div></div></section>
+
+    <section class="help-strip wrap" id="help"><div class="help-icon">?</div><div><strong>Need a hand choosing?</strong><p>Send our team a message and we’ll help you find the right option.</p></div><a class="outline-link" href="mailto:support@exe-shop.example">Contact support <span>↗</span></a></section>
   </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="brand footer-brand" href="#home"><span class="brand-mark">E</span><span>EXE<span class="brand-accent">_SHOP</span><small>DIGITAL GOODS STORE</small></span></a><span>© <span id="year"></span> EXE_SHOP. Digital goods, made simple.</span><span class="footer-note">Payments are shown in the demo checkout.</span></div></footer>
+
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true"><div class="drawer-header"><div><span class="eyebrow">YOUR SELECTION</span><h2>Your cart <span id="drawerCount">(0)</span></h2></div><button class="close-button" id="closeCart" aria-label="Close cart">×</button></div><div class="cart-items" id="cartItems"></div><div class="cart-empty" id="cartEmpty"><span>▱</span><h3>Your cart is waiting</h3><p>Add a digital essential to get started.</p><button class="primary-link" id="continueShopping">Explore products <span>↗</span></button></div><div class="cart-summary" id="cartSummary"><div class="subtotal"><span>Subtotal</span><strong id="cartTotal">$0.00</strong></div><p>Final order details are confirmed at checkout.</p><button class="checkout-button" id="checkoutButton">Continue to checkout <span>→</span></button></div></aside>
+
+  <section class="checkout-modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" aria-hidden="true"><div class="checkout-head"><div><span class="eyebrow">ALMOST THERE</span><h2 id="checkoutTitle">Checkout</h2></div><button class="close-button" id="closeCheckout" aria-label="Close checkout">×</button></div><div class="checkout-content"><div class="order-preview"><div><span>Order total</span><strong id="checkoutTotal">$0.00</strong></div><small>Your order request will be reviewed by the store.</small></div><form id="checkoutForm"><label class="field-label" for="customerName">Your name</label><input class="form-input" id="customerName" name="name" autocomplete="name" placeholder="Name" required /><label class="field-label" for="customerEmail">Email address</label><input class="form-input" id="customerEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /><fieldset class="payment-options"><legend>Choose a payment method</legend><label class="payment-option"><input type="radio" name="payment" value="bKash" required /><span class="payment-logo bkash">bK</span><span><b>bKash</b><small>Bangladesh mobile payment</small></span><i></i></label><label class="payment-option"><input type="radio" name="payment" value="Nagad" /><span class="payment-logo nagad">N</span><span><b>Nagad</b><small>Bangladesh mobile payment</small></span><i></i></label><label class="payment-option"><input type="radio" name="payment" value="Upay" /><span class="payment-logo upay">u</span><span><b>Upay</b><small>Bangladesh mobile payment</small></span><i></i></label><label class="payment-option"><input type="radio" name="payment" value="Binance" /><span class="payment-logo binance">▧</span><span><b>Binance Pay</b><small>Crypto payment option</small></span><i></i></label></fieldset><p class="demo-notice"><span>ⓘ</span> Demo checkout only. No payment will be taken. Connect a verified payment provider and secure backend before accepting real orders.</p><button class="checkout-button submit-order" type="submit">Place demo order <span>→</span></button></form><div class="order-success" id="orderSuccess" hidden><div class="success-mark">✓</div><h3>Order request received</h3><p id="successText"></p><button class="primary-link" id="finishOrder">Back to shop <span>↗</span></button></div></div></section>
   <script src="script.js"></script>
 </body>
 </html>
