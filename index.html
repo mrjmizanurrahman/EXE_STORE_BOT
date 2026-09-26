@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EXE_SHOP — Telegram Shop</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="telegram-app">
+    <aside class="sidebar">
+      <div class="side-top"><span class="menu-icon">☰</span><span class="search-icon">⌕</span></div>
+      <div class="nav-item active"><span>▣</span><small>All chats</small></div>
+      <div class="nav-item"><span>▣</span><small>Unread</small></div>
+      <div class="nav-item"><span>●</span><small>Personal</small></div>
+      <div class="nav-item"><span>▰</span><small>Groups</small></div>
+      <div class="nav-item"><span>▰</span><small>Channels</small></div>
+      <div class="nav-item"><span>▰</span><small>Bots</small></div>
+      <div class="nav-item"><span>⚙</span><small>Settings</small></div>
+    </aside>
+
+    <section class="chat-list" aria-label="Chat list">
+      <div class="list-search">⌕ <span>Search</span></div>
+      <div class="chat-preview selected"><div class="avatar bot-avatar">AP</div><div><strong>EXE_SHOP 🛍️</strong><p>bot</p></div><span class="badge">2</span></div>
+      <div class="chat-preview"><div class="avatar">👨🏻‍💻</div><div><strong>Support Team</strong><p>How can we help?</p></div></div>
+      <div class="chat-preview"><div class="avatar color-avatar">$</div><div><strong>Payment Updates</strong><p>New payment methods</p></div></div>
+      <div class="chat-preview"><div class="avatar">🌐</div><div><strong>Proxy Shop News</strong><p>Welcome to our store</p></div></div>
+    </section>
+
+    <section class="conversation">
+      <header class="chat-header">
+        <div class="avatar bot-avatar">AP</div>
+        <div class="header-title"><strong>EXE_SHOP 🛍️</strong><span>bot</span></div>
+        <div class="header-tools"><span>⌕</span><span>▣</span><span>⋮</span></div>
+      </header>
+
+      <div class="messages" id="messages" aria-live="polite">
+        <div class="date-pill">Today</div>
+        <div class="message bot-message">
+          <div>👋 Welcome to <b>EXE_SHOP</b>!</div>
+          <div>Choose a product below to get started.</div>
+          <time>1:15 PM</time>
+        </div>
+        <div class="message user-message">Menu <time>1:16 PM ✓✓</time></div>
+        <div class="message bot-message">
+          <b>🛍️ Select a category</b><br />What would you like to buy today?
+          <time>1:16 PM</time>
+        </div>
+      </div>
+
+      <div class="composer">
+        <button class="menu-button" id="menuButton" type="button">Menu</button>
+        <span class="attachment">⌁</span>
+        <input id="messageInput" type="text" placeholder="Write a message..." aria-label="Write a message" />
+        <button class="send-button" id="sendButton" type="button" aria-label="Send message">➤</button>
+        <span class="mic">♩</span>
+      </div>
+
+      <div class="keyboard" aria-label="Shop menu">
+        <button class="key green" data-action="Buy Proxy">🖥️ Buy Proxy</button>
+        <button class="key green" data-action="Buy VPN">🛡️ Buy VPN</button>
+        <button class="key red" data-action="Buy Mails">📩 Buy Mails</button>
+        <button class="key red" data-action="META AI">📸 META AI</button>
+        <button class="key green" data-action="2FA KEY">🛡️ 2FA KEY</button>
+        <button class="key green" data-action="Mail OTP">💬 Mail OTP</button>
+        <button class="key blue" data-action="Add Money">💰 Add Money</button>
+        <button class="key blue" data-action="Profile">👤 Profile</button>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
