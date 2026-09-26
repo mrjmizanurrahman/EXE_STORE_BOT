@@ -1,12 +1,30 @@
+const proxyProviders = ['ABC Proxy', 'Rapid Proxy', 'CLI Proxy-Sub', '711 Proxy-Sub'];
+const proxyDurations = ['3 Days', '7 Days', '30 Days'];
+const vpnPackages = [
+  ['3 Days', ['Express VPN', 'CyberGhost VPN', 'Vypr VPN', 'Panda VPN']],
+  ['7 Days', ['NORD VPN', 'PIA VPN', 'Hotspot Shield VPN', 'HMA VPN', 'Turbo VPN', 'Surfshark VPN', 'IPVanish VPN', 'Avast VPN', 'Pure VPN', 'Bitdefender VPN', 'Sky VPN', 'X-VPN', 'Potato VPN']],
+  ['30 Days', ['Nord VPN', 'Express VPN', 'Proton VPN']]
+];
+const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const products = [
-  { id: 'vpn', name: 'Private VPN', category: 'Privacy', icon: '◉', tag: 'POPULAR', price: 4.99, description: 'Privacy-minded browsing for your everyday devices.' },
-  { id: 'proxy', name: 'Proxy Service', category: 'Privacy', icon: '⌁', tag: 'FLEXIBLE', price: 3.50, description: 'Reliable proxy options for legitimate online workflows.' },
-  { id: 'email', name: 'Secure Email', category: 'Email', icon: '✉', tag: 'ESSENTIAL', price: 2.99, description: 'A simple email solution for work and personal use.' },
-  { id: 'workspace', name: 'Work Suite', category: 'Productivity', icon: '▤', tag: 'WORK SMART', price: 7.99, description: 'Digital productivity tools to help your ideas flow.' },
-  { id: 'ai-tools', name: 'AI Tools Guide', category: 'Productivity', icon: '✳', tag: 'CREATIVE', price: 5.00, description: 'Discover useful AI tools and practical workflows.' },
-  { id: 'security-key', name: 'Security Key', category: 'Security', icon: '⚿', tag: 'SAFER SIGN-IN', price: 9.99, description: 'A hardware security key for stronger account protection.' },
-  { id: 'cloud', name: 'Cloud Storage', category: 'Productivity', icon: '☁', tag: 'MORE SPACE', price: 3.99, description: 'Extra room for your files, projects and memories.' },
-  { id: 'domain', name: 'Domain Starter', category: 'Email', icon: '⌘', tag: 'BUILD ONLINE', price: 6.50, description: 'Get started with a domain for your next project.' }
+  ...proxyProviders.flatMap((name) => proxyDurations.map((validity) => ({
+    id: `proxy-${slugify(name)}-${slugify(validity)}`, name, category: 'Proxy', validity,
+    icon: '⌁', tag: validity.toUpperCase(), price: null,
+    description: `${name} proxy subscription for ${validity.toLowerCase()}.`
+  }))),
+  ...vpnPackages.flatMap(([validity, names]) => names.map((name) => ({
+    id: `vpn-${slugify(name)}-${slugify(validity)}`, name, category: 'VPN', validity,
+    icon: '◉', tag: validity.toUpperCase(), price: null,
+    description: `${name} subscription for ${validity.toLowerCase()}.`
+  }))),
+  { id: 'hotmail-12m-36m', name: 'Hotmail (12M–36M)', category: 'Email', icon: '✉', tag: 'HOTMAIL', price: 0.97, unit: '/ piece', stock: 340, description: 'Hotmail account, 12M–36M option.' },
+  { id: 'outlook-12m-36m', name: 'Outlook (12M–36M)', category: 'Email', icon: '✉', tag: 'OUTLOOK', price: 0.85, unit: '/ piece', stock: 1046, description: 'Outlook account, 12M–36M option.' },
+  { id: 'outlook-fr-new', name: 'Outlook.fr (New)', category: 'Email', icon: '✉', tag: 'NEW', price: 0.90, unit: '/ piece', stock: 464, description: 'New Outlook.fr account.' },
+  { id: 'meta-ai-id', name: 'META AI ID', category: 'AI', icon: '✳', tag: 'META AI', price: 0.80, unit: '/ piece', stock: 5577, description: 'META AI account ID.' },
+  { id: '2fa-key', name: '2FA Key', category: 'Security', icon: '⚿', tag: '2FA', price: null, description: 'Two-factor authentication key service.' },
+  { id: 'mail-otp', name: 'Mail OTP', category: 'Security', icon: '✉', tag: 'OTP', price: null, description: 'Email one-time passcode service.' },
+  { id: 'wallet-recharge', name: 'Add Money', category: 'Account tools', icon: '＋', tag: 'BOT FEATURE', feature: true, description: 'Wallet recharge feature.' },
+  { id: 'account-profile', name: 'Profile', category: 'Account tools', icon: '◉', tag: 'BOT FEATURE', feature: true, description: 'View account information and balance.' }
 ];
 
 const productGrid = document.getElementById('productGrid');
@@ -24,7 +42,7 @@ const cart = new Map();
 let activeCategory = 'All';
 
 function formatPrice(price) {
-  return `$${price.toFixed(2)}`;
+  return price == null ? 'Price on request' : `Tk ${price.toFixed(2)}`;
 }
 
 function renderProducts() {
@@ -44,7 +62,8 @@ function renderProducts() {
         <span class="product-category">${product.category}</span>
         <h3><a class="product-title-link" href="#product/${product.id}">${product.name}</a></h3>
         <p>${product.description}</p>
-        <div class="product-bottom"><span class="price">${formatPrice(product.price)} <small>USD</small></span><button class="add-button" data-add="${product.id}" aria-label="Add ${product.name} to cart">+</button></div>
+        ${product.stock !== undefined ? `<span class="stock-note">Stock: ${product.stock} pcs</span>` : ''}
+        <div class="product-bottom"><span class="price ${product.price == null && !product.feature ? 'price-quote' : ''}">${product.feature ? 'Bot feature' : `${formatPrice(product.price)} ${product.unit ? `<small>${product.unit}</small>` : ''}`}</span>${product.feature ? '<span class="feature-label">Account tool</span>' : `<button class="add-button" data-add="${product.id}" aria-label="Add ${product.name} to cart">+</button>`}</div>
       </div>
     </article>`).join('');
 }
@@ -67,10 +86,9 @@ function renderProductPage() {
         <span class="product-category">${product.category}</span>
         <h1>${product.name}</h1>
         <p>${product.description}</p>
-        <div class="detail-price">${formatPrice(product.price)} <small>USD</small></div>
-        <p class="detail-note">Digital product · Order details confirmed at checkout</p>
-        <div class="detail-actions"><button class="primary-link" data-detail-add="${product.id}">Add to cart</button><button class="checkout-button" data-buy-now="${product.id}">Buy now <span>→</span></button></div>
-        <div class="detail-payments"><strong>Payment options at checkout</strong><span>bKash · Nagad · Upay · Binance Pay</span></div>
+        <div class="detail-price">${product.feature ? 'Bot feature' : `${formatPrice(product.price)} <small>${product.unit || ''}</small>`}</div>
+        <p class="detail-note">${product.validity ? `Validity: ${product.validity} · ` : ''}${product.stock !== undefined ? `Stock: ${product.stock} pcs · ` : ''}${product.feature ? 'Account tool' : 'Order details confirmed at checkout'}</p>
+        ${product.feature ? '<p class="feature-description">This is an account feature, not a purchasable product.</p>' : `<div class="detail-actions"><button class="primary-link" data-detail-add="${product.id}">Add to cart</button><button class="checkout-button" data-buy-now="${product.id}">Buy now <span>→</span></button></div><div class="detail-payments"><strong>Payment options at checkout</strong><span>bKash · Nagad · Upay · Binance Pay</span></div>`}
       </div>
     </div>`;
   window.scrollTo(0, 0);
@@ -79,17 +97,23 @@ function renderProductPage() {
 function updateCart() {
   const entries = [...cart.entries()];
   const count = entries.reduce((total, [, quantity]) => total + quantity, 0);
-  const total = entries.reduce((sum, [id, quantity]) => sum + products.find((product) => product.id === id).price * quantity, 0);
+  const hasQuoteItems = entries.some(([id]) => products.find((product) => product.id === id).price == null);
+  const total = entries.reduce((sum, [id, quantity]) => {
+    const price = products.find((product) => product.id === id).price;
+    return sum + (price == null ? 0 : price * quantity);
+  }, 0);
+  const totalLabel = hasQuoteItems ? 'Quote required' : formatPrice(total);
 
   document.getElementById('cartCount').textContent = count;
   document.getElementById('drawerCount').textContent = `(${count})`;
-  document.getElementById('cartTotal').textContent = formatPrice(total);
-  document.getElementById('checkoutTotal').textContent = formatPrice(total);
+  document.getElementById('cartTotal').textContent = totalLabel;
+  document.getElementById('checkoutTotal').textContent = totalLabel;
   cartEmpty.hidden = count > 0;
   cartSummary.hidden = count === 0;
   cartItems.innerHTML = entries.map(([id, quantity]) => {
     const product = products.find((item) => item.id === id);
-    return `<div class="cart-line"><span class="cart-thumb" aria-hidden="true">${product.icon}</span><div><strong>${product.name}</strong><small>${formatPrice(product.price)} each</small><div class="quantity-control"><button data-quantity="${id}" data-change="-1" aria-label="Remove one ${product.name}">−</button><span>${quantity}</span><button data-quantity="${id}" data-change="1" aria-label="Add one ${product.name}">+</button><button class="remove-item" data-remove="${id}">Remove</button></div></div><span class="cart-line-total">${formatPrice(product.price * quantity)}</span></div>`;
+    const lineTotal = product.price == null ? 'Quote' : formatPrice(product.price * quantity);
+    return `<div class="cart-line"><span class="cart-thumb" aria-hidden="true">${product.icon}</span><div><strong>${product.name}</strong><small>${formatPrice(product.price)}${product.unit ? ` · ${product.unit}` : ' each'}</small><div class="quantity-control"><button data-quantity="${id}" data-change="-1" aria-label="Remove one ${product.name}">−</button><span>${quantity}</span><button data-quantity="${id}" data-change="1" aria-label="Add one ${product.name}">+</button><button class="remove-item" data-remove="${id}">Remove</button></div></div><span class="cart-line-total">${lineTotal}</span></div>`;
   }).join('');
 }
 
