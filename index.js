@@ -1,43 +1,46 @@
-const TelegramBot = require('8822869700:AAH2V5W0thc_NouezmdWqRWY4P62UHH-y_0');
+const TelegramBot = require('8822869700:AAF0MTJtB220QQnzak0axkchaW3pcLC8CGE');
 
-// Render থেকে আপনার API TOKEN সংগ্রহ করবে
-const token = process.env.8822869700:AAH2V5W0thc_NouezmdWqRWY4P62UHH-y_0;
-
+// Store the bot token in the TELEGRAM_BOT_TOKEN environment variable.
+const token = process.env.TELEGRAM_BOT_TOKEN;
 if (!token) {
-  console.error("8822869700:AAH2V5W0thc_NouezmdWqRWY4P62UHH-y_0");
-  process.exit(1);
+  throw new Error('Missing TELEGRAM_BOT_TOKEN environment variable.');
 }
 
 const bot = new TelegramBot(token, { polling: true });
 
-// মেইন মেনু কিবোর্ড
-const mainMenuMarkup = {
-  reply_markup: {
-    keyboard: [
-      [{ text: "🖥️ Buy Proxy" }, { text: "🛡️ Buy VPN" }],
-      [{ text: "✉️ Buy Mails" }, { text: "🤖 META AI" }],
-      [{ text: "💎 2FA KEY" }, { text: "📩 Mail OTP" }],
-      [{ text: "💰 Add Money" }, { text: "👤 Profile" }]
-    ],
-    resize_keyboard: true,
-    persistent: true
-  }
-};
+// ইউজার ব্যালেন্স ট্র্যাকিং (Database হিসেবে MongoDB/Supabase ব্যবহার করা ভালো)
+const userBalances = {};
 
-// Start Command
+// /start কমান্ড দিলে মেইন রিপ্লাই কিবোর্ড আসবে
 bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+
+  const mainMenuMarkup = {
+    reply_markup: {
+      keyboard: [
+        [{ text: "🖥️ Buy Proxy" }, { text: "🛡️ Buy VPN" }],
+        [{ text: "✉️ Buy Mails" }, { text: "🤖 META AI" }],
+        [{ text: "💎 2FA KEY" }, { text: "📩 Mail OTP" }],
+        [{ text: "💰 Add Money" }, { text: "👤 Profile" }]
+      ],
+      resize_keyboard: true,
+      persistent: true
+    }
+  };
+
   bot.sendMessage(
-    msg.chat.id,
-    `👋 **Welcome to EXE_SHOP_BOT!**\n\nনিচের মেনু থেকে আপনার সার্ভিস নির্বাচন করুন:`,
+    chatId,
+    `👋 **Welcome to EXE_SHOP_BOT!**\n\nনিচের মেনু থেকে আপনার প্রয়োজনীয় সার্ভিসটি বেছে নিন:`,
     { parse_mode: 'Markdown', ...mainMenuMarkup }
   );
 });
 
-// Button Handlers
+// মূল বাটনগুলোর রেসপন্স (Handling Main Buttons)
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
 
+  // ১. Buy Mails (ইনলাইন সাব-মেনু)
   if (text === '✉️ Buy Mails') {
     bot.sendMessage(chatId, '📧 **Select a Package from Mails:**', {
       parse_mode: 'Markdown',
@@ -52,43 +55,73 @@ bot.on('message', (msg) => {
         ]
       }
     });
-  } else if (text === '💰 Add Money') {
+  }
+
+  // ২. Add Money (ডিপোজিট অপশন)
+  else if (text === '💰 Add Money') {
     bot.sendMessage(
       chatId,
-      `💰 **Add Money Info**\n\n● **Method:** Binance\n● **Send To:** \`986876791\`\n\n💲 **Enter Amount (USDT / USD):**\n\nপেমেন্ট শেষে স্ক্রিনশট বা Transaction ID পাঠান।`,
+      `💰 **Add Money Info**\n\n` +
+      `● **Method:** Binance\n` +
+      `● **Send To:** \`986876791\`\n\n` +
+      `💲 **Enter Amount (USDT / USD):**\n\n` +
+      `পেমেন্ট শেষ করে Transaction ID বা স্ক্রিনশট এখানে সেন্ড করুন।`,
       { parse_mode: 'Markdown' }
     );
-  } else if (text === '🛡️ Buy VPN') {
-    bot.sendMessage(chatId, '🔴 **All vpn stock out**\n\nবর্তমানে জিমেইল/ভিপিএন স্টক খালি আছে।');
-  } else if (text === '📩 Mail OTP') {
+  }
+
+  // ৩. Buy VPN
+  else if (text === '🛡️ Buy VPN') {
+    bot.sendMessage(chatId, '🔴 **All vpn stock out right now!**\n\nস্টক আপডেট হলে আবার জানানো হবে।');
+  }
+
+  // ৪. Mail OTP: never request passwords, tokens, or verification codes.
+  else if (text === '📩 Mail OTP') {
     bot.sendMessage(
       chatId,
-      `🌀 **অনুগ্রহ করে ফুল মেইল ইনফো দিন:**\n\n\`email|pass|refresh_token|client_id\``,
-      { parse_mode: 'Markdown' }
+      '🔐 নিরাপত্তার জন্য এখানে password, refresh token, client ID বা OTP পাঠাবেন না। আপনার ইমেইল সেবার অফিসিয়াল recovery/support পদ্ধতি ব্যবহার করুন।'
     );
-  } else if (text === '👤 Profile') {
+  }
+
+  // ৫. Profile (ইউজার ব্যালেন্স ও ইনফো)
+  else if (text === '👤 Profile') {
+    const balance = userBalances[chatId] || 0.00;
     bot.sendMessage(
       chatId,
-      `👤 **আপনার প্রোফাইল:**\n\n🆔 **User ID:** \`${chatId}\`\n💵 **Current Balance:** $0.00 USD`,
+      `👤 **আপনার প্রোফাইল വിവരন:**\n\n` +
+      `🆔 **User ID:** \`${chatId}\`\n` +
+      `💵 **Current Balance:** $${balance.toFixed(2)} USD\n` +
+      `📦 **Total Orders:** 0`,
       { parse_mode: 'Markdown' }
     );
-  } else if (text === '🖥️ Buy Proxy') {
-    bot.sendMessage(chatId, '🌐 **Proxy Available:**\n\n● Residential Proxy\n● Datacenter Proxy');
-  } else if (text === '🤖 META AI') {
-    bot.sendMessage(chatId, '🤖 **Meta AI:** আপনার প্রশ্নটি লিখুন।');
-  } else if (text === '💎 2FA KEY') {
-    bot.sendMessage(chatId, '🔑 **2FA Key:** আপনার 2FA Secret Key টি দিন।');
+  }
+
+  // ৬. Buy Proxy
+  else if (text === '🖥️ Buy Proxy') {
+    bot.sendMessage(chatId, '🌐 **Proxy Stock:**\n\n● Residential Proxy - Available\n● Datacenter Proxy - Available');
+  }
+
+  // ৭. META AI
+  else if (text === '🤖 META AI') {
+    bot.sendMessage(chatId, '🤖 **Meta AI Active!**\n\nআপনার যেকোনো প্রশ্ন এখানে লিখুন।');
+  }
+
+  // ৮. 2FA: do not collect secret keys or generate codes for others.
+  else if (text === '💎 2FA KEY') {
+    bot.sendMessage(chatId, '🔐 আপনার 2FA secret key বা verification code কাউকে পাঠাবেন না। নিজের ডিভাইসের authenticator app বা সংশ্লিষ্ট সেবার official recovery ব্যবহার করুন।');
   }
 });
 
-// Inline Button Actions
+// ইনলাইন বাটনগুলোর রেসপন্স (Inline Callback Query Handling)
 bot.on('callback_query', (query) => {
   const chatId = query.message.chat.id;
   const messageId = query.message.message_id;
+  const data = query.data;
 
-  if (query.data === 'close_menu') {
+  if (data === 'buy_hotmail' || data === 'buy_outlook' || data === 'buy_outlook_fr') {
+    bot.answerCallbackQuery(query.id, { text: 'স্টক চেক করা হচ্ছে...' });
+    bot.sendMessage(chatId, `⚠️ **বর্তমানে এই সার্ভিসটি আউট অফ স্টক!**`);
+  } else if (data === 'close_menu') {
     bot.deleteMessage(chatId, messageId);
-  } else {
-    bot.answerCallbackQuery(query.id, { text: 'স্টক খালি আছে!' });
   }
 });
