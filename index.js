@@ -1,7 +1,7 @@
 const TelegramBot = require('8822869700:AAH2V5W0thc_NouezmdWqRWY4P62UHH-y_0');
 
 // Render থেকে আপনার API TOKEN সংগ্রহ করবে
-const token = process.env.TELEGRAM_BOT_TOKEN;
+const token = process.env.8822869700:AAH2V5W0thc_NouezmdWqRWY4P62UHH-y_0;
 
 if (!token) {
   console.error("8822869700:AAH2V5W0thc_NouezmdWqRWY4P62UHH-y_0");
