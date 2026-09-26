@@ -2,7 +2,7 @@ const https = require('https');
 const http = require('http');
 
 // Set the real bot token in the TELEGRAM_BOT_TOKEN environment variable.
-const token = process.env.TELEGRAM_BOT_TOKEN;8822869700:AAF0MTJtB220QQnzak0axkchaW3pcLC8CGE
+const token = 8822869700:AAF0MTJtB220QQnzak0axkchaW3pcLC8CGE
 const userBalances = Object.create(null);
 
 function telegramRequest(method, payload, callback) {
