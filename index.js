@@ -1,6 +1,6 @@
-const TelegramBot = require('8822869700:AAF0MTJtB220QQnzak0axkchaW3pcLC8CGE');
+const TelegramBot = require('node-telegram-bot-api');
 
-// Store the bot token in the TELEGRAM_BOT_TOKEN environment variable.
+// Token example: 8822869700:AAF0MTJtB220QQnzak0axkchaW3pcLC8CGE. Do not paste it into require(); set the real token as TELEGRAM_BOT_TOKEN.
 const token = process.env.TELEGRAM_BOT_TOKEN;
 if (!token) {
   throw new Error('Missing TELEGRAM_BOT_TOKEN environment variable.');
